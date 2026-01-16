@@ -27,22 +27,22 @@ This Day 8 build includes:
 ```
 whms-backend/
 ├── app/
-│ ├── init.py
-│ ├── config.py
-│ ├── extensions.py
-│ ├── models/
+│ ├── init.py #Where Flask app is created
+│ ├── config.py #Config settings(DB URL, secret keys)
+│ ├── extensions.py #Place for intializing SQLAlchemy, Migrate, JWT
+│ ├── models/ #Databse tables
 │ │ ├── user.py
 │ │ ├── animal.py
 │ │ ├── breeding.py
 │ │ ├── feed.py
 │ │ ├── vaccination.py
 │ │ └── alert.py
-│ └── routes/
+│ └── routes/ #Routes(APIs)
 │ └── auth_routes.py
-├── run.py
-├── requirements.txt
-├── .env
-└── .gitignore
+├── run.py #Entry point to run the app
+├── requirements.txt #Python packages needed
+├── .env #Secret environment variablees
+└── .gitignore #Files to ignore in Github(Like venv)
 ```
 
 yaml
@@ -69,6 +69,8 @@ cd whms_backend
 # Create and activate virtual environment
 python3 -m venv venv
 source venv/bin/activate
+(-Keeps dependencies seperate)
+(-Ensures the project works exactly the same on any computer)
 
 # Install dependencies
 pip install -r requirements.txt
@@ -78,7 +80,7 @@ export DATABASE_URL=your_database_url
 export JWT_SECRET_KEY=your_secret_key
 
 # Initialize and migrate database
-flask db init
+flask db init #
 flask db migrate -m "Initial tables"
 flask db upgrade
 

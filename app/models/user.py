@@ -1,5 +1,6 @@
 from app.extensions import db
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash;
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)

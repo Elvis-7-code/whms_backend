@@ -24,3 +24,23 @@ def register():
     db.session.commit()
 
     return jsonify({"message": "User registered successfully"}), 201
+
+
+from flask_jwt_extended import create_access_token
+
+@auth_bp.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+    user = User.query.filter_by(email=data["email"]).first()
+
+    if not user or not user.check_password(data["password"]):
+        return jsonify({"error": "Invalid credentials"}), 401
+
+    token = create_access_token(identity={
+        "id": user.id,
+        "role": user.role
+    })
+
+    return jsonify({"access_token": token}), 200
+
+    

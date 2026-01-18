@@ -60,3 +60,14 @@ def update_animal(id):
     db.session.commit()
 
     return jsonify({"message": "Animal updated"}), 200
+
+@animal_bp.route("/<int:id>"), methods=["DELETE"]
+@jwt_required()
+@role_required("owner")
+def delete_animal(id):
+    animal = Animal.qury.get_or_404(id)
+
+    db.session.delete(animal)
+    db.session.commit()
+
+    return jsonify({"message": "Animal ddeleted"}), 200

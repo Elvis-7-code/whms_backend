@@ -28,4 +28,20 @@ def add_animal():
 
     return jsonify({"message": "Animal added successfully"}), 201
 
+@animal_bp.route("/", methods=["GET"])
+@jwt_required()
+def get_animals():
+    animals = Animal.query.all()
 
+    result = []
+    for animal in animals:
+        result.append({
+            "id": animal.id,
+            "tag_number": animal.tag_number,
+            "species": animal.species,
+            "breed": animal.breed,
+            "sex": animal.sex,
+            "is_pregnant": animal.is_pregnant
+        })
+
+    return jsonify(result), 200

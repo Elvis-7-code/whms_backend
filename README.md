@@ -179,4 +179,72 @@ This authentication layer ensures the system is secure and ready for real farm u
  -Animal routes implementes
  -JWT protection working
  -Data fetching tested successfully
-   
+ 
+ ###Day 11 -- Breeding & Pregnancy Tracking
+ ##Overview
+ -Day 11 focused on designing the breeding logic for the Wahome Herd Management System (WHMS)
+
+ The system now allows the farm to:
+  -Track which male animals breed with females
+  -Record start dates of breeding events
+  -Predict expected birth dates using species-specific gestation preiods
+  -Update female pregnancy status automatically
+  -Prevent error like double-pregnancy or wrong species mating
+
+  Breeding is treated as a seperate event in the system, not just a property of the female, allowing better historical tracking and future farm planning.
+
+  ###Target Users
+  -Farm Owner:can add males/females, start breeding and manually override records
+  -Farm Manager:can view breeding records, start breeding, track pregnancies
+  -Farm Worker: Can only view breeding and pregnancy statuses
+
+  ###Animals Involved
+  -Males: Bulls(cows),Rams(sheep), Goats
+  -Females: Cows, Ewes, Goats
+  -each animal has:
+    .Unique tag number
+    .Sex
+    .Species
+    .Pregnancy status(is_pregnant)
+
+###Core Features Implemented
+-Create breeding records linking male - female
+-record start date of breeding 
+-Calculate expected birth date based on gestation:
+ .Cows- ~283days
+ .Sheep- ~150days
+ .Goats- ~150days
+ -Update female's is_pregnant status automatically
+ -Prevent breefing errors(double-pregnancy, wrong species)
+ -Manual override allowed for special cases
+
+ ###Breeding Workflow
+ 1.Male is added to the system
+ 2.Female exists in the system
+ 3.Breeding record is created linking male-female
+ 4.Start date of breeding is recorded
+ 5.Gestation period is applied
+ 6.Expected birth date is calculated automatically
+ 7.Female is marked as pregnant
+ 8.Alerts are scheduled for upcoming calving
+
+ ###Error Handling/Validation
+ -Male selected must match species
+ -Female must exist
+ -Female cannot be in the future
+ -Start date cannot be in the future
+ -Multiple births are supported and not treated as errors
+
+ ###Route Endpoints(Planned for Coding)
+ -POST/api/breeding/start -- Start breeding(Owner/Manager)
+ -GET /api/breeding -- View all breeding records(Authenticated users)
+ -GET /api/breeding/<id> -- View single breeding record
+ These routes will handle logic like marking pregnancy, calculating expected births and validating breeding conditions.
+
+ ###Outcome
+ By the end of Day 11:
+ -Breeding rules are clearly defined
+ -Gestation periods are mapped
+ -Error handling is identified
+ -Workflow is fully documented
+ -THe system is ready for actual coding of breeding functionality

@@ -45,3 +45,18 @@ def get_animals():
         })
 
     return jsonify(result), 200
+
+@animal_bp.route("/<int:id>", methods=["PUT"])
+@jwt_required()
+@role_required("manager")
+def update_animal(id):
+    animal = Animal.query.get_or_404(id)
+    data = request.get_json()
+
+    animal.breed = data.get("breed", animal.breed)
+    animal.sex = data.get("sex", animal.sex)
+    animal.is_pregnant = data.get("is_pregnant", animal.is_pregnant)
+
+    db.session.commit()
+
+    return jsonify({"message": "Animal updated"}), 200

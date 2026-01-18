@@ -1,4 +1,6 @@
 from app.extensions import db
+from datetime import date
+
 
 class Alert(db.Model):
     id = db.Column(db.Integer, primary_key=True)

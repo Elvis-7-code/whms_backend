@@ -17,3 +17,9 @@ def schedule_pregnancy_alerts():
                 alert = Alert(type='pregnancy', message=message, trigger_date=trigger)
                 db.session.add(alert)
     db.session.commit()
+
+def send_sms(alert):
+    # Placeholder for SMS sending logic
+    print(f"SMS sent: {alert.message}")
+    alert.sent = True
+    db.session.commit()    

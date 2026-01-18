@@ -303,4 +303,43 @@ By the end of Day 12;
 .Expected birth dates are calculated
 .Systems validates breeding rules
 
+## User Roles & Access Control
+
+WHMS supports multiple users across different roles to reflect real-world farm operations. The system does not limit the number of owners, managers, or workers. Instead, access is controlled using role-based permissions.
+
+### Supported Roles
+
+- **Owner**
+  - Full system access
+  - Manage users (add/remove)
+  - View all reports and alerts
+  - Override system rules
+
+- **Manager**
+  - Manage daily farm operations
+  - Record breeding activities
+  - Update feed inventory
+  - Manage vaccinations
+  - View alerts
+
+- **Worker**
+  - View animal records
+  - Update feeding records
+  - Mark vaccinations as administered
+  - Limited access (no administrative permissions)
+
+### Authentication & Authorization
+
+- Authentication is handled using JWT (JSON Web Tokens)
+- Each JWT contains the user's role
+- Access to routes is restricted based on role permissions
+
+Example:
+```python
+@jwt_required()
+def route():
+    if current_user.role not in ['owner', 'manager']:
+        return {"msg": "Unauthorized"}, 403
+
+
  

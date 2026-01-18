@@ -118,7 +118,7 @@ This day focused on securing the backend using JWT authentication and role-based
 
 This authentication layer ensures the system is secure and ready for real farm usage before adding animal and breeding operations.
 
-###Day 10- Animal managemenet & Protected Routes
+#Day 10- Animal managemenet & Protected Routes
  Day 10 focused on building core animal management functionality in the Wahome HErd management System (WHMS).
  The goal was to understand Flask routes, JWT protection and how backed APIs fetch data from the database securely.
  This day is very important because it introduces how real backend APIs work in production systems.
@@ -180,8 +180,8 @@ This authentication layer ensures the system is secure and ready for real farm u
  -JWT protection working
  -Data fetching tested successfully
  
- ###Day 11 -- Breeding & Pregnancy Tracking
- ##Overview
+ #Day 11 -- Breeding & Pregnancy Tracking
+ **Overview**
  -Day 11 focused on designing the breeding logic for the Wahome Herd Management System (WHMS)
 
  The system now allows the farm to:
@@ -248,3 +248,59 @@ This authentication layer ensures the system is secure and ready for real farm u
  -Error handling is identified
  -Workflow is fully documented
  -THe system is ready for actual coding of breeding functionality
+
+ #Day 12 - Breeding Routes & Pregnancy Logic
+ ##Overview
+ DAy 12 focuses on coding the breeding functionality for WHMS.
+
+ The system now allows the farm to:
+ -Start a breeeding event linking a male (bull/ram) to a female (cow/ewe)
+ -Automatically calculate the expected birth date based on species-specific gestation
+ -Mark the female as pregnant in the animals table
+ -Prevent invalid breeding events(species mismatch, double pregnancy)
+
+ This forme the core of the farm's reproductive management and ensures accurate planning for fees, space, and care.
+
+ __Target Users__
+ ```
+ Farm Owner: Can start breeding and override errors
+ Farm Manager: Can start breeding and track pregnancy
+ Farm Worker: can only view breeding records
+
+```
+***Core Features Implemented
+-Start breeding: Create a new breeding record linking male- female
+-Automatic pregnancy:Female is marked is_pregnant = True when breeding starts
+-Expected birth calculations: Gestation period applied based on species:
+   .Cow - 283days
+   .Sheep - 150days
+   .Goat - 150days
+
+-Validation & error handling:
+  .Male/female must exist
+  .Species must match
+  .Female cannot already be pregnant
+-Manual override allowed for special cases
+
+***Route Endpoints***
+-POST /api/breeding/start - Start a breeding event(Owner/Manager)
+  .Request body:{"male_id":1, "female_id":2}
+  .Response: {"message": "Breeding started successfully", "female":"Tag123", "male":"Tag456", "expected_birth_date":"2026-06-18"}
+-GET /api/breeding - View all breeding records(Authenticated users)
+-GET /api/breeding/<id>-View a single breeding record
+
+***Error Handling***
+-Male must match species
+-Female must exist
+-Female cannot already be pregnant
+-Start date cannot be in the future
+-Multiple births are supported
+
+***Outcome***
+By the end of Day 12;
+.Breeding routes are fully coded
+.Pregnancy is automatically tracked
+.Expected birth dates are calculated
+.Systems validates breeding rules
+
+ 

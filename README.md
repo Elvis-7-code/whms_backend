@@ -117,3 +117,66 @@ This day focused on securing the backend using JWT authentication and role-based
 - GET `/api/auth/me` (JWT protected)
 
 This authentication layer ensures the system is secure and ready for real farm usage before adding animal and breeding operations.
+
+###Day 10- Animal managemenet & Protected Routes
+ Day 10 focused on building core animal management functionality in the Wahome HErd management System (WHMS).
+ The goal was to understand Flask routes, JWT protection and how backed APIs fetch data from the database securely.
+ This day is very important because it introduces how real backend APIs work in production systems.
+
+ ##Key Concepts Covered 
+ 1. Flask Blueprints
+ 2. Route decorators
+ 3. JWT-protected routes
+ 4. Returning JSON responses
+ 5. Understanding request --> logic --> response flow
+
+ ###Features Implemented
+ -Fetch all animals from the databasse 
+ -Return structured  JSON data
+ -Protect routes using JWT authentication
+
+ @animal_bp.route(...)
+ -This tells Flask which URL triggeres the function
+
+ methods = ["GET"]
+ -This route is for fetching data, not creating or updating.
+
+ @jwt_required()
+ -Only logged-in users with a valid JWT token can access this route.
+
+ animals=Animal.query.all()
+ -Fetches all animal records from the database.
+
+ result = []
+ -Creates an empty list to store formatted animal data.
+
+ for animal in animals:
+   result.append({
+    "id": animal.id
+    "tag_number":animal.tag_number,
+    "species":animal.species,
+    "breed": animal.breed,
+    "sex": animal.sex,
+    "is_pregnant":animal.is_pregnant
+   });
+ -Loops through each animal
+ -Converts database object into JSON-frienfly dictionaries
+
+ return jsonify(result), 200
+ -Send the data back to the client with an HTTP 200 OK response
+
+ ###Security
+ - All animals routes are protected using Flask-JWT-Extended
+ -Users must log in and attach a valid JWT token to access data
+
+ ###Tools Used
+ -Flask
+ -Flask SQLAlchemy
+ -Flask-JWT-Extended
+ -Postman(for testing routes)
+
+ ###Status
+ -Animal routes implementes
+ -JWT protection working
+ -Data fetching tested successfully
+   

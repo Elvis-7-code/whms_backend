@@ -1,0 +1,1 @@
+jwt.init_app(app) 

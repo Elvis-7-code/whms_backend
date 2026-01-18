@@ -87,3 +87,33 @@ flask db upgrade
 # Run the backend
 python run.py
 Windows users: Use set DATABASE_URL=your_database_url and set JWT_SECRET_KEY=your_secret_key for environment variables.
+
+## Day 9 – Authentication & Access Control
+
+This day focused on securing the backend using JWT authentication and role-based access control.
+
+### Features Implemented
+- User registration with hashed passwords
+- User login with JWT token generation
+- Secure password storage using Werkzeug
+- Protected API routes using JWT
+- Role-based access control (Owner, Manager, Worker)
+
+### Authentication Flow
+1. User registers with name, email, password, and role
+2. Password is hashed before storage
+3. User logs in using email and password
+4. System generates a JWT access token
+5. Token is required to access protected routes
+
+### Roles Supported
+- Owner: Full system access
+- Manager: Operational access
+- Worker: Limited / read-only access
+
+### Sample Endpoints
+- POST `/api/auth/register`
+- POST `/api/auth/login`
+- GET `/api/auth/me` (JWT protected)
+
+This authentication layer ensures the system is secure and ready for real farm usage before adding animal and breeding operations.

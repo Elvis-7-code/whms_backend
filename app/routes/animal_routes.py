@@ -71,3 +71,12 @@ def delete_animal(id):
     db.session.commit()
 
     return jsonify({"message": "Animal ddeleted"}), 200
+
+@animal_bp.route("/counts", methods = ["GET"])
+@jwt_required()
+def animal_counts():
+    return jsonify ({
+        "cows": Animal.query.filter_by(species="cow").count(),
+        "goats":Animal.query.filter_by(species="goat").count(),
+        "sheep":Animal.query.filter_by(species="sheep").count()
+    }), 200

@@ -2,6 +2,8 @@ from flask import Flask
 from .config import Config
 from .extensions import db, migrate, jwt
 from app.routes.animal_routes import animal_bp
+from app.routes.breeding_routes import breeding_bp
+from app.routes.vaccination_routes import vaccination_bp
 
 
 def create_app():
@@ -13,5 +15,7 @@ def create_app():
     jwt.init_app(app)
 
     app.register_blueprint(animal_bp, url_prefix="/api/animals")
+    app.register_blueprint(breeding_bp, url_prefix="/api/breedings")
+    app.register_blueprint(vaccination_bp, url_prefix="/api/vaccinations")
 
     return app

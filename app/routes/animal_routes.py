@@ -3,6 +3,9 @@ from flask_jwt_extended import jwt_required
 from app.extensions import db
 from app.models.animal import Animal
 from app.utils.roles import role_required
+from app.utils.constants import ANIMAL_STATUSES
+from app.utils.validators import validate_required_fields
+
 
 class AnimalRoutes:
     animal_bp = Blueprint('animal',__name__)
@@ -61,16 +64,15 @@ def update_animal(id):
 
     return jsonify({"message": "Animal updated"}), 200
 
-@animal_bp.route("/<int:id>"), methods=["DELETE"]
+@animal_bp.route("/<int:id>", methods=["DELETE"])
 @jwt_required()
 @role_required("owner")
 def delete_animal(id):
     animal = Animal.qury.get_or_404(id)
-
     db.session.delete(animal)
     db.session.commit()
 
-    return jsonify({"message": "Animal ddeleted"}), 200
+    return jsonify({"message": "Animal deleted successfully"}), 200
 
 @animal_bp.route("/counts", methods = ["GET"])
 @jwt_required()

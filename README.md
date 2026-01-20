@@ -381,3 +381,39 @@ These features are planned in the data model but not implemented in the current 
 - Weekly operational reviews
 - Monthly vaccination audits
 - Scheduled backups and optimization
+
+## Day 15 – Background Tasks & System Stability
+
+Day 15 introduces automation through background jobs to ensure WHMS runs reliably without manual intervention.
+
+### Background Tasks
+- Daily feed depletion checks
+- Pregnancy alert scheduling
+- Vaccination reminder checks
+- Overdue breeding detection
+
+### Cron Job Strategy
+WHMS uses scheduled background tasks to:
+- Execute daily, weekly, and monthly system checks
+- Prevent missed alerts and data inconsistencies
+- Reduce dependency on manual user actions
+
+### Service Layer
+All background tasks operate through a service layer:
+- Feed Service
+- Breeding Service
+- Vaccination Service
+- Alert Service
+- SMS Service
+
+This ensures clean separation between routes and business logic.
+
+### Error Handling & Logging
+- Background task failures are logged
+- One task failure does not affect others
+- Tasks are safe to rerun without duplication
+
+### Production Readiness
+- Designed for Linux cron or APScheduler
+- Scalable for future task queues
+- Ready for long-term farm usage

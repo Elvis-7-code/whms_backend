@@ -341,5 +341,43 @@ def route():
     if current_user.role not in ['owner', 'manager']:
         return {"msg": "Unauthorized"}, 403
 
+## Day 14 – System Automation & Alert Engine
 
- 
+Day 14 focuses on making WHMS intelligent, automated, and production-ready.
+
+### Automation Features
+- Automatic pregnancy prediction and tracking
+- Daily feed depletion calculations
+- Vaccination schedule generation
+- Overdue task detection
+
+### Alert Engine
+- In-app alerts for critical farm events
+- SMS alerts for owners and managers
+- Alert types include:
+  - Pregnancy alerts (14, 7, 3 days)
+  - Feed low and critical alerts
+  - Vaccination due alerts
+
+### SMS Design
+- SMS functionality is abstracted from routes
+- Allows switching SMS providers without system changes
+
+### Error Handling
+- Authentication and authorization errors
+- Data integrity validation
+- System and integration failure handling
+
+### Future Business Readiness
+WHMS is designed to support future business features such as:
+- Animal pricing
+- Animal sales
+- Market reporting
+
+These features are planned in the data model but not implemented in the current phase.
+
+### Maintenance Plan
+- Daily system monitoring
+- Weekly operational reviews
+- Monthly vaccination audits
+- Scheduled backups and optimization

@@ -17,3 +17,11 @@ def get_alerts():
         }
           for a in alerts
           ])
+
+
+alert_bp.route('/alerts/<int:alert_id>/send_sms', methods=['POST'])
+@jwt_required()
+def send_sms(alert):
+    """
+    Sends SMS using the configured provider
+    """

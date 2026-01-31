@@ -6,7 +6,7 @@ breeding_bp = Blueprint("breeding", __name__, url_prefix="/breeding")
 
 @breeding_bp.route("/", methods=["POST"])
 @jwt_required()
-def breed():
+def add_breeding():
     data = request.get_json()
 
     male_id = data.get("male_id")

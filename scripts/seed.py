@@ -1,7 +1,14 @@
+import sys
+import os
+
 from datetime import date
 from app import create_app
 from app.extensions import db
 from app.models.animal import Animal
+
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../")
+
 
 def seed_animals():
     animals = [
@@ -10,7 +17,7 @@ def seed_animals():
             "species": "sheep",
             "breed": "Dorper",
             "sex": "female",
-            "date_of_birth": date(2025, 1, 24),
+            "date_bought": date(2025, 1, 24),
             "is_pregnant": True
         },
         {

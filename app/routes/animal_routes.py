@@ -1,21 +1,18 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required
 from app.extensions import db
 from app.models.animal import Animal
-from app.utils.roles import role_required
-from app.utils.constants import ANIMAL_STATUSES
-from app.utils.validators import validate_required_fields
-from app.utils.helpers import today
-from app.services.animal_service import create_animal, get_all_animals
+# from flask_jwt_extended import jwt_required  # temporarily commented out for dev
+# from app.utils.roles import role_required  # temporarily commented out for dev
 
 animal_bp = Blueprint('animal', __name__, url_prefix='/api/animals')
 
 
-class AnimalRoutes:
-    animal_bp = Blueprint('animal',__name__)
-
-@jwt_required()
-@role_required("owner")
+# ----------------------------
+# ADD ANIMAL (for now, keep JWT optional)
+# ----------------------------
+# @jwt_required()
+# @role_required("owner")
+@animal_bp.route("/", methods=["POST"])
 def add_animal():
     data = request.get_json()
 
@@ -35,8 +32,12 @@ def add_animal():
 
     return jsonify({"message": "Animal added successfully"}), 201
 
+
+# ----------------------------
+# GET ANIMALS (no auth for dev)
+# ----------------------------
+# @jwt_required()
 @animal_bp.route("/", methods=["GET"])
-@jwt_required()
 def get_animals():
     animals = Animal.query.all()
 
@@ -53,9 +54,13 @@ def get_animals():
 
     return jsonify(result), 200
 
+
+# ----------------------------
+# UPDATE ANIMAL
+# ----------------------------
+# @jwt_required()
+# @role_required("manager")
 @animal_bp.route("/<int:id>", methods=["PUT"])
-@jwt_required()
-@role_required("manager")
 def update_animal(id):
     animal = Animal.query.get_or_404(id)
     data = request.get_json()
@@ -68,21 +73,29 @@ def update_animal(id):
 
     return jsonify({"message": "Animal updated"}), 200
 
+
+# ----------------------------
+# DELETE ANIMAL
+# ----------------------------
+# @jwt_required()
+# @role_required("owner")
 @animal_bp.route("/<int:id>", methods=["DELETE"])
-@jwt_required()
-@role_required("owner")
 def delete_animal(id):
-    animal = Animal.qury.get_or_404(id)
+    animal = Animal.query.get_or_404(id)
     db.session.delete(animal)
     db.session.commit()
 
     return jsonify({"message": "Animal deleted successfully"}), 200
 
-@animal_bp.route("/counts", methods = ["GET"])
-@jwt_required()
+
+# ----------------------------
+# ANIMAL COUNTS
+# ----------------------------
+# @jwt_required()
+@animal_bp.route("/counts", methods=["GET"])
 def animal_counts():
-    return jsonify ({
+    return jsonify({
         "cows": Animal.query.filter_by(species="cow").count(),
-        "goats":Animal.query.filter_by(species="goat").count(),
-        "sheep":Animal.query.filter_by(species="sheep").count()
+        "goats": Animal.query.filter_by(species="goat").count(),
+        "sheep": Animal.query.filter_by(species="sheep").count()
     }), 200

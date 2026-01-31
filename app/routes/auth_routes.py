@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify
 from app.extensions import db
 from app.models.user import User
 from flask_jwt_extended import creeate_access_token
 
 auth_bp = Blueprint('auth', __name__)
 auth_bp = Blueprint("auth", __name__)
+auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 @auth_bp.route("/register", methods=["POST"])
 def register():

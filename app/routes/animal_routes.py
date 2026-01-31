@@ -5,6 +5,10 @@ from app.models.animal import Animal
 from app.utils.roles import role_required
 from app.utils.constants import ANIMAL_STATUSES
 from app.utils.validators import validate_required_fields
+from app.utils.helpers import today
+from app.services.animal_service import create_animal, get_all_animals
+
+animal_bp = Blueprint('animal', __name__, url_prefix='/api/animals')
 
 
 class AnimalRoutes:

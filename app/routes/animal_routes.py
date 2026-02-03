@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required
 from app.extensions import db
 from app.models.animal import Animal
 # from flask_jwt_extended import jwt_required  # temporarily commented out for dev
@@ -49,7 +50,14 @@ def get_animals():
             "species": animal.species,
             "breed": animal.breed,
             "sex": animal.sex,
-            "is_pregnant": animal.is_pregnant
+            "is_pregnant": animal.is_pregnant,
+            "status": animal.status,
+            "health_status": animal.health_status,
+            "weight": animal.weight,
+            "location": animal.location,
+            "last_vaccination_date": animal.last_vaccination_date,
+            "next_vaccination_date": animal.next_vaccination_date,
+            
         })
 
     return jsonify(result), 200
@@ -98,4 +106,17 @@ def animal_counts():
         "cows": Animal.query.filter_by(species="cow").count(),
         "goats": Animal.query.filter_by(species="goat").count(),
         "sheep": Animal.query.filter_by(species="sheep").count()
+    }), 200
+
+@animal_bp.route("/stats", methods=["GET"])
+@jwt_required()
+def animal_stats():
+    total = Animal.query.count()
+    pregnant = Animal.query.filter_by(is_pregnant=True).count()
+    healthy = Animal.query.filter_by(health_status="healthy").count()
+
+    return jsonify({
+        "total_animals": total,
+        "pregnant": pregnant,
+        "healthy": healthy
     }), 200

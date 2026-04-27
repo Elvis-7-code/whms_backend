@@ -7,7 +7,8 @@ def role_required(*allowed_roles):
     def decorator(fn):
         @wraps(fn)
         def wrapper(*args, **kwargs):
-            user_id = get_jwt_identity()
+            identity = get_jwt_identity()
+            user_id = identity.get("user_id")
             user = User.query.get(user_id)
 
             if not user or user.role not in allowed_roles:

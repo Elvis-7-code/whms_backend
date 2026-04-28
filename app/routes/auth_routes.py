@@ -3,43 +3,20 @@ from app.extensions import db
 from app.models.user import User
 from flask_jwt_extended import create_access_token
 
-auth_bp = Blueprint("auth", __name__)
+auth_bp = Blueprint('auth', __name__)
 
-@auth_bp.route("/register", methods=["POST"])
-def register():
-    data = request.get_json()
-    
-    if not data:
-        return jsonify({"error": "No input data provided"}), 400
-    
-    if User.query.filter_by(email=data["email"]).first():
-        return jsonify({"error": "Email already exists"}), 400
-    
-    user = User(
-        name=data["name"],
-        email=data["email"],
-        role=data.get("role", "worker")  # default to worker if not specified
-    )
-    user.set_password(data["password"])
-    
-    db.session.add(user)
-    db.session.commit()
-    
-    return jsonify({"message": "User registered successfully"}), 201
-
-
-@auth_bp.route("/login", methods=["POST"])
+@auth_bp.route('/login', methods=['POST', 'OPTIONS'])
 def login():
+    if request.method == 'OPTIONS':
+        return jsonify({}), 200
+    
     data = request.get_json()
     
-    user = User.query.filter_by(email=data["email"]).first()
+    user = User.query.filter_by(email=data.get("email")).first()
     
-    if not user or not user.check_password(data["password"]):
+    if not user or not user.check_password(data.get("password")):
         return jsonify({"error": "Invalid credentials"}), 401
     
-    token = create_access_token(identity={
-        "id": user.id,
-        "role": user.role
-    })
+    token = create_access_token(identity={"id": user.id, "role": user.role})
     
     return jsonify({"access_token": token}), 200
